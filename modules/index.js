@@ -112,14 +112,14 @@ class Roulette {
 				console.log("running");
 				setTimeout(() => {
 					if(session != this.session) return console.log("Newer session found, ignoring this one.");
-					this.sendSignal(true);
+					this.sendSignal(STATE.UP);
 				}, this.config.DELAY);
 			}
 			if(state == STATE.DOWN) {
 				console.log("stopped");
 				setTimeout(() => {
 					if(session != this.session) return console.log("Newer session found, ignoring this one.");
-					this.sendSignal(false);
+					this.sendSignal(STATE.DOWN);
 				}, this.config.DELAY);	//Is it really required?
 			}
 		}
@@ -133,7 +133,7 @@ class Roulette {
 			executeAt(stop, () => {
 				if(session != this.session) return console.log("Newer session found, ignoring this one.");
 				console.log("stopping...");
-				this.sendSignal(false);
+				this.sendSignal(STATE.DOWN);
 				this.updateState(STATE.DOWN);
 			});
 		}
@@ -141,7 +141,7 @@ class Roulette {
 			executeAt(start, () => {
 				if(session != this.session) return console.log("Newer session found, ignoring this one.");
 				console.log("starting...");
-				this.sendSignal(true);
+				this.sendSignal(STATE.UP);
 				this.updateState(STATE.UP);
 			});
 		}
