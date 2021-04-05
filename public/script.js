@@ -119,7 +119,9 @@ async function saveChanges(name) {
 	const stop = JL(section, "input.stop").value.split(":");
 	const delay = JL(section, "input.delay").value;
 	const locked = JL(section, `.lock input[type="checkbox"]`).checked;
-	const lockState = JL(section, `.lock select`).value;
+	const lockState = +JL(section, `.lock select`).value;
+
+	if(isNaN(lockState)) return alert(`Invalid 'lockState': You have to select locked state before locking it!`);
 
 	place.config.START.h = +start[0];
 	place.config.START.m = +start[1];
@@ -128,7 +130,7 @@ async function saveChanges(name) {
 	place.config.STOP.m = +stop[1];
 
 	place.config.DELAY = +delay * 1000;
-	place.config.LOCKED = locked ? +lockState : null;
+	place.config.LOCKED = locked ? lockState : null;
 
 	const res = await API.updateConfig(place.config, place.host);
 	console.log(res);
