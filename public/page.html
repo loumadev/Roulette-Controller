@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=PT+Sans:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script src="https://loumadev.eu/JustLib.js"></script>
+	<script src="script.js" defer></script>
+	<title>Roulette Controller</title>
+</head>
+
+<body>
+
+	<main>
+		<section class="table column">
+			<article class="schedule table column">
+				<label>Schedule</label>
+				<div class="item table row">
+					<span>Start:</span>
+					<input class="start" type="time" step="60">
+				</div>
+				<div class="item table row">
+					<span>Stop:</span>
+					<input class="stop" type="time" step="60">
+				</div>
+			</article>
+			<article class="lock table column">
+				<label>Lock state</label>
+				<div class="item table row v-center">
+					<select>
+						<option value="null" selected disabled hidden>Select</option>
+						<option value="true">Running</option>
+						<option value="false">Stopped</option>
+					</select>
+					<input type="checkbox" id="lock">
+					<label for="lock" class="table center">
+						<svg viewBox="0 0 576 512" style="margin-left: 4px" class="unlocked">
+							<path fill="currentColor" d="M423.5 0C339.5.3 272 69.5 272 153.5V224H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48h-48v-71.1c0-39.6 31.7-72.5 71.3-72.9 40-.4 72.7 32.1 72.7 72v80c0 13.3 10.7 24 24 24h32c13.3 0 24-10.7 24-24v-80C576 68 507.5-.3 423.5 0zM264 392c0 22.1-17.9 40-40 40s-40-17.9-40-40v-48c0-22.1 17.9-40 40-40s40 17.9 40 40v48z"></path>
+						</svg>
+						<svg viewBox="0 0 448 512" class="locked">
+							<path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zM264 392c0 22.1-17.9 40-40 40s-40-17.9-40-40v-48c0-22.1 17.9-40 40-40s40 17.9 40 40v48zm32-168H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path>
+						</svg>
+					</label>
+				</div>
+			</article>
+			<article class="manual table column">
+				<label>Manual control</label>
+				<div class="item table row">
+					<button class="start">Start</button>
+					<button class="stop">Stop</button>
+					<button class="restart">Restart</button>
+				</div>
+			</article>
+		</section>
+	</main>
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+{
+	"http-port": 8089,
+	"enable-cli": true,
+	"debug": true,
+	"login": {
+		"username": "admin",
+		"password": "admin"
+	}
+}
