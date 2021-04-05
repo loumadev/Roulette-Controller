@@ -63,7 +63,7 @@ async function main() {
 
 function generatePlace(place) {
 	const node = parseHTML(`<section class="table column" data-name="${place.name}">
-		<article class="title table column">
+		<article class="title table row v-center">
 			<span>${place.name}</span>
 			<div class="state" data-state="${place.state}"></div>
 		</article>
