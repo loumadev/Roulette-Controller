@@ -3,6 +3,12 @@ const fs = require("fs");
 const Gpio = require("onoff").Gpio;
 const {getUniqueID} = require("../JustLib.js");
 
+const STATE = {
+	BOOT: 0,
+	UP: 1,
+	DOWN: 2
+};
+
 const PATH_CONFIG = __dirname + "/config.json";
 const DEFAULT_CONFIG = {
 	NAME: "Some name",
@@ -20,7 +26,7 @@ const DEFAULT_CONFIG = {
 
 Server.on("load", e => {
 	Roulette.init();
-	Roulette.getState();
+	Roulette.getState(STATE.BOOT);
 });
 
 Server.on("/", e => {
@@ -50,6 +56,8 @@ Server.on("/api/update", e => {
 	e.post(config => {
 		Roulette.config = config;
 		Roulette.saveConfig();
+
+		Roulette.getState(STATE.BOOT);
 
 		e.send({
 			"success": true,
@@ -90,7 +98,7 @@ class Roulette {
 		Server.log(`Sending signal to ` + state);
 	}
 
-	static getState(state = 0) {
+	static getState(state = STATE.BOOT) {
 		const session = getUniqueID(24);
 		this.session = session;
 
@@ -105,16 +113,16 @@ class Roulette {
 		fixTime(stop);
 
 		//On boot
-		if(state == 0) {
+		if(state == STATE.BOOT) {
 			state = isInRange(now, start, stop) ? 1 : 2;
-			if(state == 1) {
+			if(state == STATE.UP) {
 				console.log("running");
 				setTimeout(() => {
 					if(session != this.session) return console.log("Newer session found, ignoring this one.");
 					this.sendSignal(true);
 				}, this.config.DELAY);
 			}
-			if(state == 2) {
+			if(state == STATE.DOWN) {
 				console.log("stopped");
 				setTimeout(() => {
 					if(session != this.session) return console.log("Newer session found, ignoring this one.");
@@ -128,20 +136,20 @@ class Roulette {
 
 		console.log(now, ":", start, stop);
 
-		if(state == 1) {
+		if(state == STATE.UP) {
 			executeAt(stop, () => {
 				if(session != this.session) return console.log("Newer session found, ignoring this one.");
 				console.log("stopping...");
 				this.sendSignal(false);
-				this.getState(2);
+				this.getState(STATE.DOWN);
 			});
 		}
-		if(state == 2) {
+		if(state == STATE.DOWN) {
 			executeAt(start, () => {
 				if(session != this.session) return console.log("Newer session found, ignoring this one.");
 				console.log("starting...");
 				this.sendSignal(true);
-				this.getState(1);
+				this.getState(STATE.UP);
 			});
 		}
 	}
