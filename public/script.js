@@ -125,7 +125,7 @@ async function saveChanges(name) {
 	const locked = JL(section, `.lock input[type="checkbox"]`).checked;
 	const lockState = +JL(section, `.lock select`).value;
 
-	if(isNaN(lockState)) return alert(`Invalid 'lockState': You have to select locked state before locking it!`);
+	if(locked && isNaN(lockState)) return alert(`Invalid 'lockState': You have to select locked state before locking it!`);
 
 	place.config.START.h = +start[0];
 	place.config.START.m = +start[1];
