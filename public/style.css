@@ -101,6 +101,7 @@ button {
     width: 100px;
     height: 30px;
     margin: 5px 10px;
+    padding: 5px 20px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
@@ -115,9 +116,9 @@ button.secondary {
     border: 1px solid rgb(103 103 104);
 }
 
-button:first-child {
+/* button:first-child {
     margin-left: 0;
-}
+} */
 
 button:hover {
     opacity: 0.9;
@@ -190,6 +191,10 @@ button:active {
 
 .table.column {
     flex-direction: column;
+}
+
+.table.wrap {
+    flex-wrap: wrap;
 }
 
 .table.center {
