@@ -26,7 +26,7 @@ const DEFAULT_CONFIG = {
 
 Server.on("load", e => {
 	Roulette.init();
-	Roulette.getState(STATE.BOOT);
+	Roulette.updateState(STATE.BOOT);
 });
 
 Server.on("/", e => {
@@ -57,7 +57,7 @@ Server.on("/api/update", e => {
 		Roulette.config = config;
 		Roulette.saveConfig();
 
-		Roulette.getState(STATE.BOOT);
+		Roulette.updateState(STATE.BOOT);
 
 		e.send({
 			"success": true,
@@ -98,7 +98,7 @@ class Roulette {
 		Server.log(`Sending signal to ` + state);
 	}
 
-	static getState(state = STATE.BOOT) {
+	static updateState(state = STATE.BOOT) {
 		const session = getUniqueID(24);
 		this.session = session;
 
@@ -141,7 +141,7 @@ class Roulette {
 				if(session != this.session) return console.log("Newer session found, ignoring this one.");
 				console.log("stopping...");
 				this.sendSignal(false);
-				this.getState(STATE.DOWN);
+				this.updateState(STATE.DOWN);
 			});
 		}
 		if(state == STATE.DOWN) {
@@ -149,7 +149,7 @@ class Roulette {
 				if(session != this.session) return console.log("Newer session found, ignoring this one.");
 				console.log("starting...");
 				this.sendSignal(true);
-				this.getState(STATE.UP);
+				this.updateState(STATE.UP);
 			});
 		}
 	}
