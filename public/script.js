@@ -86,7 +86,7 @@ function generatePlace(place) {
 			<label>Lock state</label>
 			<div class="item table row v-center">
 				<select value="${place.config.LOCKED}" title="Select state to lock">
-					<option value="null" selected disabled hidden>Select</option>
+					<option value="null" disabled hidden>Select</option>
 					<option value="1">Running</option>
 					<option value="2">Stopped</option>
 				</select>

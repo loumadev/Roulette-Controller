@@ -57,7 +57,7 @@ Server.on("/api/update", e => {
 		Roulette.config = config;
 		Roulette.saveConfig();
 
-		Roulette.updateState(STATE.BOOT);
+		Roulette.updateState(STATE.BOOT, false);
 
 		e.send({
 			"success": true,
@@ -89,7 +89,7 @@ class Roulette {
 		Server.log(`Sending signal to ` + state);
 	}
 
-	static updateState(state = STATE.BOOT) {
+	static updateState(state = STATE.BOOT, updateNow = true) {
 		const session = getUniqueID(24);
 		this.session = session;
 
@@ -108,19 +108,21 @@ class Roulette {
 			state = isInRange(now, start, stop) ? STATE.UP : STATE.DOWN;
 			this.state = STATE.BOOT;
 
-			if(state == STATE.UP) {
-				console.log("running");
-				setTimeout(() => {
-					if(session != this.session) return console.log("Newer session found, ignoring this one.");
-					this.sendSignal(STATE.UP);
-				}, this.config.DELAY);
-			}
-			if(state == STATE.DOWN) {
-				console.log("stopped");
-				setTimeout(() => {
-					if(session != this.session) return console.log("Newer session found, ignoring this one.");
-					this.sendSignal(STATE.DOWN);
-				}, this.config.DELAY);	//Is it really required?
+			if(updateNow) {
+				if(state == STATE.UP) {
+					console.log("running");
+					setTimeout(() => {
+						if(session != this.session) return console.log("Newer session found, ignoring this one.");
+						this.sendSignal(STATE.UP);
+					}, this.config.DELAY);
+				}
+				if(state == STATE.DOWN) {
+					console.log("stopped");
+					setTimeout(() => {
+						if(session != this.session) return console.log("Newer session found, ignoring this one.");
+						this.sendSignal(STATE.DOWN);
+					}, this.config.DELAY);	//Is it really required?
+				}
 			}
 		}
 
