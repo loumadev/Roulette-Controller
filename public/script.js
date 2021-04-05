@@ -2,12 +2,14 @@ const PLACES = [
 	{
 		name: "Golden Royal Club",
 		host: "/",
-		config: null
+		config: null,
+		state: null
 	},
 	{
 		name: "Club 17",
 		host: "",
-		config: null
+		config: null,
+		state: null
 	}
 ];
 
@@ -63,6 +65,7 @@ function generatePlace(place) {
 	const node = parseHTML(`<section class="table column" data-name="${place.name}">
 		<article class="title table column">
 			<span>${place.name}</span>
+			<div class="state" data-state="${place.state}"></div>
 		</article>
 		<article class="schedule table column">
 			<label>Schedule</label>
@@ -104,6 +107,7 @@ function generatePlace(place) {
 				<button class="start secondary" onclick="confirm('Do you really want to turn the roullete ON (${place.name})?') && API.toggleState(true, '${place.host}')" title="Send signal to start the roulette manually">Start</button>
 				<button class="stop secondary" onclick="confirm('Do you really want to turn the roullete OFF (${place.name})?') && API.toggleState(false, '${place.host}')" title="Send signal to stop the roulette manually">Stop</button>
 				<button class="apply primary" onclick="confirm('Do you really want to save all changed values (${place.name})?') && saveChanges('${place.name}')" title="Save changes">Apply</button>
+				<button class="reload secondary" onclick="updatePlaceData('${place.name}')" title="Save changes">Reload</button>
 			</div>
 		</article>
 	</section>`);
@@ -132,8 +136,10 @@ async function saveChanges(name) {
 	place.config.DELAY = +delay * 1000;
 	place.config.LOCKED = locked ? lockState : null;
 
-	const res = await API.updateConfig(place.config, place.host);
-	console.log(res);
+	const res = await API.updateConfig(place.config, place.host); console.log(res);
+	place.config = res.config;
+	place.state = res.state;
+	updatePlaceElement(place);
 }
 
 function updatePlaces() {
@@ -144,11 +150,29 @@ function updatePlaces() {
 	}
 }
 
+async function updatePlaceData(name) {
+	const place = PLACES.find(e => e.name == name);
+
+	const res = await API.getConfig(place.host); console.log(res);
+	place.config = res.config;
+	place.state = res.state;
+
+	updatePlaceElement(place);
+}
+
+function updatePlaceElement(place) {
+	const section = JL(`section[data-name="${place.name}"]`);
+
+	section.replaceWith(generatePlace(place));
+}
+
 async function loadConfig() {
 	for(const place of PLACES) {
 		console.log(`Loading configuration of ${place.name}...`);
-		place.config = (await API.getConfig(place.host)).config;
-		console.log("Configuration loaded", place.config);
+		const res = await API.getConfig(place.host);
+		place.config = res.config;
+		place.state = res.state;
+		console.log("Configuration loaded", place);
 	}
 }
 
