@@ -104,8 +104,8 @@ function generatePlace(place) {
 		<article class="manual table column">
 			<label>Manual control</label>
 			<div class="item table row wrap">
-				<button class="start secondary" onclick="confirm('Do you really want to turn the roullete ON (${place.name})?') && API.toggleState(STATE.UP, '${place.host}')" title="Send signal to start the roulette manually">Start</button>
-				<button class="stop secondary" onclick="confirm('Do you really want to turn the roullete OFF (${place.name})?') && API.toggleState(STATE.DOWN, '${place.host}')" title="Send signal to stop the roulette manually">Stop</button>
+				<button class="start secondary" onclick="confirm('Do you really want to turn the roulette ON (${place.name})?') && API.toggleState(STATE.UP, '${place.host}')" title="Send signal to start the roulette manually">Start</button>
+				<button class="stop secondary" onclick="confirm('Do you really want to turn the roulette OFF (${place.name})?') && API.toggleState(STATE.DOWN, '${place.host}')" title="Send signal to stop the roulette manually">Stop</button>
 				<button class="apply primary" onclick="confirm('Do you really want to save all changed values (${place.name})?') && saveChanges('${place.name}')" title="Save changes">Apply</button>
 				<button class="reload secondary" onclick="updatePlaceData('${place.name}')" title="Save changes">Reload</button>
 			</div>
