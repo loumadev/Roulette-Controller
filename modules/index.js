@@ -74,19 +74,11 @@ class Roulette {
 	static session = null;
 
 	static init() {
-		/*if(!fs.existsSync(PATH_CONFIG)) {
+		if(!fs.existsSync(PATH_CONFIG)) {
 			fs.writeFileSync(PATH_CONFIG, JSON.stringify(DEFAULT_CONFIG, null, "\t"));
 		}
 
-		this.config = JSON.parse(fs.readFileSync(PATH_CONFIG).toString());*/
-
-		this.config = DEFAULT_CONFIG;
-
-		/*var t = new Date("2021.02.14 12:57");
-		console.log(t);
-		executeAt(t, () => {
-			console.log("Executed!!!");
-		});*/
+		this.config = JSON.parse(fs.readFileSync(PATH_CONFIG).toString());
 	}
 
 	static sendSignal(state = STATE.DOWN) {
