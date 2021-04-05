@@ -71,11 +71,11 @@ function generatePlace(place) {
 			<label>Schedule</label>
 			<div class="item table row">
 				<span title="Starting time of the schedule">Start:</span>
-				<input class="start" type="time" step="60" value="${place.config.START.h}:${place.config.START.m}">
+				<input class="start" type="time" step="60" value="${fixDigits(place.config.START.h)}:${fixDigits(place.config.START.m)}">
 			</div>
 			<div class="item table row">
 				<span title="Ending time of the schedule">Stop:</span>
-				<input class="stop" type="time" step="60" value="${place.config.STOP.h}:${place.config.STOP.m}">
+				<input class="stop" type="time" step="60" value="${fixDigits(place.config.STOP.h)}:${fixDigits(place.config.STOP.m)}">
 			</div>
 			<div class="item table row">
 				<span title="Time in SECONDS between shutdown and bootup">Delay:</span>
