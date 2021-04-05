@@ -70,7 +70,6 @@ Server.on("/api/update", e => {
 class Roulette {
 	static config = null;
 	static state = null;
-	static middleState = null;
 	static session = null;
 
 	static init() {
@@ -94,7 +93,7 @@ class Roulette {
 		const session = getUniqueID(24);
 		this.session = session;
 
-		var now = new Date(/*"2021.02.16. 18:00"*/);
+		var now = new Date();
 		now.setSeconds(0, 0);
 
 		var start = new Date(now); start.setHours(this.config.START.h, this.config.START.m);
