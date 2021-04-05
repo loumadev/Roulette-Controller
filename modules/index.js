@@ -89,7 +89,7 @@ class Roulette {
 		});*/
 	}
 
-	static sendSignal(state = false) {
+	static sendSignal(state = STATE.DOWN) {
 		if(this.config.LOCKED !== null) {
 			state = this.config.LOCKED;
 		}
@@ -114,7 +114,9 @@ class Roulette {
 
 		//On boot
 		if(state == STATE.BOOT) {
-			state = isInRange(now, start, stop) ? 1 : 2;
+			state = isInRange(now, start, stop) ? STATE.UP : STATE.DOWN;
+			this.state = STATE.BOOT;
+
 			if(state == STATE.UP) {
 				console.log("running");
 				setTimeout(() => {

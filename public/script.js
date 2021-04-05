@@ -11,6 +11,12 @@ const PLACES = [
 	}
 ];
 
+const STATE = {
+	BOOT: 0,
+	UP: 1,
+	DOWN: 2
+};
+
 const ELM = {
 	LOCK_SELECT: JL(".lock select"),
 	LOCK_CHECKBOX: JL(".lock input"),
@@ -78,8 +84,8 @@ function generatePlace(place) {
 			<div class="item table row v-center">
 				<select value="${place.config.LOCKED}" title="Select state to lock">
 					<option value="null" selected disabled hidden>Select</option>
-					<option value="true">Running</option>
-					<option value="false">Stopped</option>
+					<option value="1">Running</option>
+					<option value="2">Stopped</option>
 				</select>
 				<input type="checkbox" id="lock" ${place.config.LOCKED == null ? "" : "checked"}>
 				<label for="lock" class="table center" title="Lock selected state">
@@ -122,7 +128,7 @@ async function saveChanges(name) {
 	place.config.STOP.m = +stop[1];
 
 	place.config.DELAY = +delay * 1000;
-	place.config.LOCKED = locked ? lockState : null;
+	place.config.LOCKED = locked ? +lockState : null;
 
 	const res = await API.updateConfig(place.config, place.host);
 	console.log(res);
