@@ -19,14 +19,19 @@ const DEFAULT_CONFIG = {
 	LOCKED: null
 };
 
-/*const RELAY = {
-	START: new Gpio(4, "out"),
-	STOP: new Gpio(5, "out")
-};*/
+const RELAY = {
+	START: new Gpio(26, "out"),
+	STOP: new Gpio(20, "out")
+};
 
 Server.on("load", e => {
 	Roulette.init();
 	Roulette.updateState(STATE.BOOT);
+});
+
+Server.on("unload", e => {
+	RELAY.START.unexport();
+	RELAY.STOP.unexport();
 });
 
 Server.on("/", e => {
@@ -87,6 +92,13 @@ class Roulette {
 
 		this.state = state;
 		Server.log(`Sending signal to ` + state);
+
+		var relay = null;
+		if(state == STATE.UP) relay = RELAY.START;
+		else if(state == STATE.DOWN) relay = RELAY.STOP;
+
+		relay.writeSync(1);
+		setTimeout(() => relay.writeSync(1), 500);
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
