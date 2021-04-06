@@ -25,6 +25,8 @@ const RELAY = {
 };
 
 Server.on("load", e => {
+	RELAY.START.writeSync(1);
+	RELAY.STOP.writeSync(1);
 	Roulette.init();
 	Roulette.updateState(STATE.BOOT);
 });
