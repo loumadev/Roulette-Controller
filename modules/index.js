@@ -97,8 +97,8 @@ class Roulette {
 		if(state == STATE.UP) relay = RELAY.START;
 		else if(state == STATE.DOWN) relay = RELAY.STOP;
 
-		relay.writeSync(1);
-		setTimeout(() => relay.writeSync(0), 500);
+		relay.writeSync(0);
+		setTimeout(() => relay.writeSync(1), 500);
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
