@@ -20,21 +20,21 @@ const DEFAULT_CONFIG = {
 };
 
 const RELAY = {
-	START: new Gpio(26, "out"),
-	STOP: new Gpio(20, "out")
+	START: 26,
+	STOP: 20
 };
 
 Server.on("load", e => {
-	RELAY.START.writeSync(1);
-	RELAY.STOP.writeSync(1);
+	// RELAY.START.writeSync(1);
+	// RELAY.STOP.writeSync(1);
 	Roulette.init();
 	Roulette.updateState(STATE.BOOT);
 });
 
-Server.on("unload", e => {
-	RELAY.START.unexport();
-	RELAY.STOP.unexport();
-});
+// Server.on("unload", e => {
+// 	RELAY.START.unexport();
+// 	RELAY.STOP.unexport();
+// });
 
 Server.on("/", e => {
 	e.redirect("/page.html");
@@ -96,11 +96,11 @@ class Roulette {
 		Server.log(`Sending signal to ` + state);
 
 		var relay = null;
-		if(state == STATE.UP) relay = RELAY.START;
-		else if(state == STATE.DOWN) relay = RELAY.STOP;
+		if(state == STATE.UP) relay = new Gpio(RELAY.START, "out");
+		else if(state == STATE.DOWN) relay = new Gpio(RELAY.STOP, "out");
 
-		relay.writeSync(0);
-		setTimeout(() => relay.writeSync(1), 500);
+		//relay.writeSync(0);
+		setTimeout(() => relay.unexport()/*relay.writeSync(1)*/, 500);
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
