@@ -51,7 +51,7 @@ Server.on("/api/config", e => {
 Server.on("/api/toggle", e => {
 	const {state} = e.query;
 
-	Roulette.sendSignal(state);
+	Roulette.sendSignal(state, true);
 
 	e.send({
 		"success": true,
@@ -87,8 +87,8 @@ class Roulette {
 		this.config = JSON.parse(fs.readFileSync(PATH_CONFIG).toString());
 	}
 
-	static sendSignal(state = STATE.DOWN) {
-		if(this.config.LOCKED !== null) {
+	static sendSignal(state = STATE.DOWN, force = false) {
+		if(!force && this.config.LOCKED !== null) {
 			state = this.config.LOCKED;
 		}
 
