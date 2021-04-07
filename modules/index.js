@@ -64,6 +64,7 @@ Server.on("/api/update", e => {
 		Roulette.config = config;
 		Roulette.saveConfig();
 
+		Roulette.session = getUniqueID(24);
 		Roulette.updateState(STATE.BOOT, false);
 
 		e.send({
@@ -104,8 +105,7 @@ class Roulette {
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
-		const session = getUniqueID(24);
-		this.session = session;
+		const session = this.session;
 
 		var now = new Date();
 		now.setSeconds(0, 0);
