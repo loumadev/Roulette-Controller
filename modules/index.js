@@ -29,6 +29,8 @@ Server.on("load", e => {
 	// RELAY.STOP.writeSync(1);
 	Roulette.init();
 	Roulette.updateState(STATE.BOOT);
+
+	console.log("server loaded");
 });
 
 // Server.on("unload", e => {
