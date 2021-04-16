@@ -29,8 +29,6 @@ Server.on("load", e => {
 	// RELAY.STOP.writeSync(1);
 	Roulette.init();
 	Roulette.updateState(STATE.BOOT);
-
-	console.log("server loaded");
 });
 
 // Server.on("unload", e => {
@@ -166,10 +164,7 @@ class Roulette {
 	}
 
 	static saveConfig() {
-		editJSON(PATH_CONFIG, json => {
-			json = this.config;
-			return json;
-		});
+		fs.writeFileSync(PATH_CONFIG, JSON.stringify(this.config, null, "\t"));
 	}
 }
 
