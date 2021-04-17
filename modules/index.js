@@ -1,4 +1,4 @@
-const {Server, editJSON} = require("../server.js");
+const {Server} = require("../server.js");
 const fs = require("fs");
 const Gpio = require("onoff").Gpio;
 const {getUniqueID} = require("../JustLib.js");
@@ -25,16 +25,9 @@ const RELAY = {
 };
 
 Server.on("load", e => {
-	// RELAY.START.writeSync(1);
-	// RELAY.STOP.writeSync(1);
 	Roulette.init();
 	Roulette.updateState(STATE.BOOT);
 });
-
-// Server.on("unload", e => {
-// 	RELAY.START.unexport();
-// 	RELAY.STOP.unexport();
-// });
 
 Server.on("/", e => {
 	e.redirect("/page.html");
@@ -100,8 +93,7 @@ class Roulette {
 		if(state == STATE.UP) relay = new Gpio(RELAY.START, "out");
 		else if(state == STATE.DOWN) relay = new Gpio(RELAY.STOP, "out");
 
-		//relay.writeSync(0);
-		setTimeout(() => relay.unexport()/*relay.writeSync(1)*/, 500);
+		setTimeout(() => relay.unexport(), 500);
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
