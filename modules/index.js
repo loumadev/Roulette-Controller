@@ -162,7 +162,9 @@ class Roulette {
 
 
 function fixTime(date) {
+	console.log("before:", date);
 	date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+	console.log("after:", date);
 }
 
 function executeAt(time, callback) {
