@@ -146,7 +146,7 @@ async function updatePlaceData() {
 function updatePlaceElement() {
 	const section = JL(`section[data-name="${PLACE.config.NAME}"]`);
 
-	section.replaceWith(generatePlace(place));
+	section.replaceWith(generatePlace());
 }
 
 async function loadConfig() {
