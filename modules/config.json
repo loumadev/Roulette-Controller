@@ -1,1 +1,14 @@
-{"NAME":"Some name","START":{"h":23,"m":21},"STOP":{"h":18,"m":34},"DELAY":5000,"IMPULSE":500,"LOCKED":1}
+{
+	"NAME": "Some name",
+	"START": {
+		"h": 23,
+		"m": 21
+	},
+	"STOP": {
+		"h": 18,
+		"m": 34
+	},
+	"DELAY": 5000,
+	"IMPULSE": 500,
+	"LOCKED": 1
+}
