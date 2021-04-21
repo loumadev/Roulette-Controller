@@ -30,42 +30,50 @@ Server.on("load", e => {
 });
 
 Server.on("/", e => {
-	e.redirect("/page.html");
+	e.auth(() => {
+		e.redirect("/page.html");
+	});
 });
 
 Server.on("/api/config", e => {
-	e.send({
-		"success": true,
-		"config": Roulette.config,
-		"state": Roulette.state
-	});
-});
-
-Server.on("/api/toggle", e => {
-	const {state} = e.query;
-
-	Roulette.sendSignal(state, true);
-
-	e.send({
-		"success": true,
-		"state": Roulette.state
-	});
-});
-
-Server.on("/api/update", e => {
-	e.post(config => {
-		Roulette.config = config;
-		Roulette.saveConfig();
-
-		Roulette.session = getUniqueID(24);
-		Roulette.updateState(STATE.BOOT, false);
-
+	e.auth(() => {
 		e.send({
 			"success": true,
 			"config": Roulette.config,
 			"state": Roulette.state
 		});
-	}, "json");
+	});
+});
+
+Server.on("/api/toggle", e => {
+	e.auth(() => {
+		const {state} = e.query;
+
+		Roulette.sendSignal(state, true);
+
+		e.send({
+			"success": true,
+			"state": Roulette.state
+		});
+	});
+});
+
+Server.on("/api/update", e => {
+	e.auth(() => {
+		e.post(config => {
+			Roulette.config = config;
+			Roulette.saveConfig();
+
+			Roulette.session = getUniqueID(24);
+			Roulette.updateState(STATE.BOOT, false);
+
+			e.send({
+				"success": true,
+				"config": Roulette.config,
+				"state": Roulette.state
+			});
+		}, "json");
+	});
 });
 
 class Roulette {
