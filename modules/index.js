@@ -81,6 +81,10 @@ Server.on("/api/restart", e => {
 	e.auth(() => {
 		const relay = new Gpio(RELAY.RESET, "out");
 		setTimeout(() => relay.unexport(), 500);
+
+		e.send({
+			success: true
+		});
 	});
 });
 
