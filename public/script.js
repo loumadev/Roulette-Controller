@@ -101,7 +101,7 @@ function generatePlace() {
 				<button class="stop secondary" onclick="confirm('Do you really want to turn the roulette OFF (${PLACE.config.NAME})?') && toggleState(STATE.DOWN)" title="Send signal to stop the roulette manually">Stop</button>
 				<button class="apply primary" onclick="confirm('Do you really want to save all changed values (${PLACE.config.NAME})?') && saveChanges('${PLACE.config.NAME}')" title="Save changes">Apply</button>
 				<button class="reload primary" onclick="updatePlaceData('${PLACE.config.NAME}')" title="Save changes">Reload</button>
-				<button class="restart secondary" onclick="confirm('Do you really want to restart Pip (${PLACE.config.NAME})?') && restartPip()" title="Reset Pip">Reset</button>
+				<button class="restart secondary" onclick="confirm('Do you really want to restart Pip (${PLACE.config.NAME})?') && API.restartPip()" title="Reset Pip">Reset</button>
 			</div>
 		</article>
 	</section>`);
