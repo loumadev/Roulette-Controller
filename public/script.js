@@ -93,8 +93,8 @@ function generatePlace() {
 		<article class="manual table column">
 			<label>Manual control</label>
 			<div class="item table row wrap">
-				<button class="start secondary" onclick="confirm('Do you really want to turn the roulette ON (${PLACE.config.NAME})?') && API.toggleState(STATE.UP, '${PLACE.host}')" title="Send signal to start the roulette manually">Start</button>
-				<button class="stop secondary" onclick="confirm('Do you really want to turn the roulette OFF (${PLACE.config.NAME})?') && API.toggleState(STATE.DOWN, '${PLACE.host}')" title="Send signal to stop the roulette manually">Stop</button>
+				<button class="start secondary" onclick="confirm('Do you really want to turn the roulette ON (${PLACE.config.NAME})?') && toggleState(STATE.UP)" title="Send signal to start the roulette manually">Start</button>
+				<button class="stop secondary" onclick="confirm('Do you really want to turn the roulette OFF (${PLACE.config.NAME})?') && toggleState(STATE.DOWN)" title="Send signal to stop the roulette manually">Stop</button>
 				<button class="apply primary" onclick="confirm('Do you really want to save all changed values (${PLACE.config.NAME})?') && saveChanges('${PLACE.config.NAME}')" title="Save changes">Apply</button>
 				<button class="reload secondary" onclick="updatePlaceData('${PLACE.config.NAME}')" title="Save changes">Reload</button>
 			</div>
@@ -151,10 +151,17 @@ function updatePlaceElement() {
 
 async function loadConfig() {
 	console.log(`Loading configuration...`);
-	const res = await API.getConfig();
+	const res = await API.getConfig(); console.log(res);
 	PLACE.config = res.config;
 	PLACE.state = res.state;
 	console.log("Configuration loaded", PLACE);
+}
+
+async function toggleState(state) {
+	const res = await API.toggleState(state); console.log(res);
+	PLACE.state = res.state;
+
+	updatePlaceElement();
 }
 
 main();
