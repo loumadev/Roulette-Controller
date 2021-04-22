@@ -21,7 +21,8 @@ const DEFAULT_CONFIG = {
 
 const RELAY = {
 	START: 26,
-	STOP: 20
+	STOP: 20,
+	RESET: -1
 };
 
 Server.on("load", e => {
@@ -73,6 +74,13 @@ Server.on("/api/update", e => {
 				"state": Roulette.state
 			});
 		}, "json");
+	});
+});
+
+Server.on("/api/restart", e => {
+	e.auth(() => {
+		const relay = new Gpio(RELAY.RESET, "out");
+		setTimeout(() => relay.unexport(), 500);
 	});
 });
 
