@@ -11,12 +11,12 @@ const btoa = data => Buffer.from(data).toString("base64");
 const atob = data => Buffer.from(data, "base64").toString();
 
 const PATH = {
-	CONFIG: "./config.json",
-	TRUSTED_IPS: "./trustedips.json",
-	BLACKLIST: "./blacklist.json",
-	MODULES: "./modules/",
-	PUBLIC: "./public/"
-}
+	CONFIG: __dirname + "/config.json",
+	TRUSTED_IPS: __dirname + "/trustedips.json",
+	BLACKLIST: __dirname + "/blacklist.json",
+	MODULES: __dirname + "/modules/",
+	PUBLIC: __dirname + "/public/"
+};
 
 class Server extends EventListenerStatic {
 	static title = null;
@@ -315,7 +315,7 @@ class Server extends EventListenerStatic {
 		}
 
 		//Load modules
-		const files = getAllFiles(path.join(__dirname, PATH.MODULES), 1);
+		const files = getAllFiles(PATH.MODULES, 1);
 		for(var file of files) {
 			let project = path.basename(path.dirname(file)); if(project == dirname) project = null;
 			let filename = path.basename(file);
@@ -334,7 +334,7 @@ class Server extends EventListenerStatic {
 			} catch(e) {
 				this.modules[moduleName] = {
 					loaded: false,
-					exports: null
+					exports: undefined
 				};
 				this.error(`Failed to load '${filename}':`, e);
 			}
