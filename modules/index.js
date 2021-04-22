@@ -22,7 +22,7 @@ const DEFAULT_CONFIG = {
 const RELAY = {
 	START: 26,
 	STOP: 20,
-	RESET: -1
+	RESET: 21
 };
 
 Server.on("load", e => {
