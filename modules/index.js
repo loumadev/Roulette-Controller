@@ -80,7 +80,7 @@ Server.on("/api/update", e => {
 Server.on("/api/restart", e => {
 	e.auth(() => {
 		const relay = new Gpio(RELAY.RESET, "out");
-		setTimeout(() => relay.unexport(), 500);
+		setTimeout(() => relay.unexport(), 10000);
 
 		e.send({
 			success: true
