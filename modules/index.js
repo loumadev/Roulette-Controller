@@ -113,7 +113,7 @@ class Roulette {
 		if(state == STATE.UP) relay = new Gpio(RELAY.START, "out");
 		else if(state == STATE.DOWN) relay = new Gpio(RELAY.STOP, "out");
 
-		setTimeout(() => relay.unexport(), 500);
+		setTimeout(() => relay.unexport(), this.config.IMPULSE);
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
