@@ -106,13 +106,25 @@ class Roulette {
 			state = this.config.LOCKED;
 		}
 
-		this.state = state;
 		Server.log(`Sending signal to ` + state);
 
 		var relay = null;
-		if(state == STATE.UP) relay = new Gpio(RELAY.START, "out");
+		if(state == STATE.UP) {
+			relay = new Gpio(RELAY.START, "out");
+
+			// If the roulette is booting up automatically send reset pulse
+			if(this.state == STATE.DOWN && !force) {
+
+				//Wait 10 seconds before sending pulse
+				setTimeout(() => {
+					const relay = new Gpio(RELAY.RESET, "out");
+					setTimeout(() => relay.unexport(), 10000);
+				}, 10000);
+			}
+		}
 		else if(state == STATE.DOWN) relay = new Gpio(RELAY.STOP, "out");
 
+		this.state = state;
 		setTimeout(() => relay.unexport(), this.config.IMPULSE);
 	}
 
