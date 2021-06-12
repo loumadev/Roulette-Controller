@@ -80,7 +80,7 @@ Server.on("/api/update", e => {
 Server.on("/api/restart", e => {
 	e.auth(() => {
 		const relay = new Gpio(RELAY.RESET, "out");
-		setTimeout(() => relay.unexport(), 10000);
+		this.unexportRelay(relay, 10000);
 
 		e.send({
 			success: true
@@ -118,14 +118,21 @@ class Roulette {
 				//Wait 10 seconds before sending pulse
 				setTimeout(() => {
 					const relay = new Gpio(RELAY.RESET, "out");
-					setTimeout(() => relay.unexport(), 10000);
+					this.unexportRelay(relay, 10000);
 				}, 10000);
 			}
 		}
 		else if(state == STATE.DOWN) relay = new Gpio(RELAY.STOP, "out");
 
 		this.state = state;
-		setTimeout(() => relay.unexport(), this.config.IMPULSE);
+		this.unexportRelay(relay, this.config.IMPULSE);
+	}
+
+	static unexportRelay(relay, delay = 0) {
+		setTimeout(() => {
+			relay.writeSync(true);
+			relay.unexport();
+		}, delay);
 	}
 
 	static updateState(state = STATE.BOOT, updateNow = true) {
